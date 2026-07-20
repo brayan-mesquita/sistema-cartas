@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  envio-cartas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: legendarios-envio-cartas
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      # Volume persistente para o banco de dados SQLite
+      - sqlite_data:/app/prisma/data
+
+volumes:
+  sqlite_data:
+    driver: local
