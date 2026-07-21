@@ -260,11 +260,11 @@ export function CartaForm({ onSuccess }: CartaFormProps) {
     <>
       <div className="w-full max-w-2xl mx-auto p-6 sm:p-8 bg-[#ffffff] border border-[#e5e7eb] rounded-3xl shadow-lg relative space-y-6">
         {/* Banner de Capa Institucional: Cartas aos Senderistas */}
-        <div className="relative w-full h-36 sm:h-48 rounded-2xl overflow-hidden shadow-xs border border-[#e5e7eb]">
+        <div className="relative w-full rounded-2xl overflow-hidden shadow-xs border border-[#e5e7eb] bg-[#1a0c04] flex items-center justify-center p-1 sm:p-2">
           <img
             src="/banner-whatsapp.jpg"
             alt="Cartas aos Senderistas — Movimento Legendários"
-            className="w-full h-full object-cover"
+            className="w-full h-auto max-h-[360px] sm:max-h-[440px] object-contain rounded-xl"
           />
         </div>
 
