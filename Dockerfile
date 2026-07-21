@@ -21,6 +21,12 @@ ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV production
 ENV DATABASE_URL "file:./data/legendarios.db"
 
+# A URL publica precisa existir em tempo de BUILD: o metadata da home e estatico,
+# entao og:image e resolvido aqui, nao em runtime. Sem isso o preview do WhatsApp
+# aponta para localhost. Cadastrar como Build Argument no Easypanel.
+ARG NEXT_PUBLIC_APP_URL
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+
 # Gerar Prisma Client e Build do Next.js
 RUN npx prisma generate
 RUN npm run build

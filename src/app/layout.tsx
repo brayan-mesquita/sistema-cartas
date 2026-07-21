@@ -12,11 +12,20 @@ const outfit = Outfit({
   variable: "--font-outfit",
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL
-  ? (process.env.NEXT_PUBLIC_APP_URL.startsWith("http")
-      ? process.env.NEXT_PUBLIC_APP_URL
-      : `https://${process.env.NEXT_PUBLIC_APP_URL}`)
-  : "http://localhost:3000";
+// Este metadata é avaliado em tempo de BUILD (a home é estática), então
+// NEXT_PUBLIC_APP_URL precisa chegar como build arg no Docker. O fallback é o
+// domínio de produção — nunca localhost, que quebraria o preview do WhatsApp.
+const PRODUCTION_URL = "https://cartas.legendariosportovelho.com.br";
+
+function resolveBaseUrl(): string {
+  // env_file do Docker não remove aspas, então o valor pode chegar com elas.
+  const raw = process.env.NEXT_PUBLIC_APP_URL?.trim().replace(/^["']|["']$/g, "");
+  if (!raw) return PRODUCTION_URL;
+  const withProtocol = raw.startsWith("http") ? raw : `https://${raw}`;
+  return withProtocol.replace(/\/+$/, "");
+}
+
+const baseUrl = resolveBaseUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -33,7 +42,7 @@ export const metadata: Metadata = {
       {
         url: "/og-image.jpg",
         width: 1200,
-        height: 1200,
+        height: 630,
         type: "image/jpeg",
         alt: "Cartas aos Senderistas — Movimento Legendários",
       },
