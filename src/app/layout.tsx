@@ -12,18 +12,29 @@ const outfit = Outfit({
   variable: "--font-outfit",
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL
+  ? (process.env.NEXT_PUBLIC_APP_URL.startsWith("http")
+      ? process.env.NEXT_PUBLIC_APP_URL
+      : `https://${process.env.NEXT_PUBLIC_APP_URL}`)
+  : "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: "Cartas aos Senderistas — Movimento Legendários",
   description: "Portal Oficial de Envio de Cartas de Apoio para os Senderistas do Movimento Legendários.",
   openGraph: {
     title: "Cartas aos Senderistas — Movimento Legendários",
     description: "Portal Oficial de Envio de Cartas de Apoio em PDF.",
+    url: "/",
+    siteName: "Movimento Legendários",
+    locale: "pt_BR",
     type: "website",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 1200,
+        type: "image/jpeg",
         alt: "Cartas aos Senderistas — Movimento Legendários",
       },
     ],
