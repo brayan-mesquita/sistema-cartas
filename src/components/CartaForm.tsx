@@ -5,7 +5,6 @@ import {
   Upload,
   FileText,
   X,
-  User,
   Phone,
   Heart,
   AlertCircle,
@@ -315,16 +314,6 @@ export function CartaForm({ onSuccess }: CartaFormProps) {
         {/* ======================================================== */}
         {step === 1 && (
           <form onSubmit={handleNextStep} className="space-y-6 animate-in fade-in duration-150">
-            <div className="space-y-1.5">
-              <h2 className="text-xl font-extrabold text-[#111827] tracking-tight flex items-center gap-2">
-                <User className="w-5 h-5 text-amber-600" />
-                <span>Etapa Inicial: Dados do Participante</span>
-              </h2>
-              <p className="text-[#4b5563] text-xs leading-relaxed">
-                Preencha o número de telefone e o nome do participante para prosseguir.
-              </p>
-            </div>
-
             {/* Notificação de Bloqueio se o número já estiver registrado no SQLite */}
             {alreadyRegistered && (
               <div className="p-5 rounded-2xl bg-amber-50 border border-amber-300 space-y-2 text-amber-900 animate-in zoom-in-95">
@@ -343,7 +332,7 @@ export function CartaForm({ onSuccess }: CartaFormProps) {
               {/* Telefone do Participante */}
               <div>
                 <label className="block text-xs font-bold text-[#111827] mb-1">
-                  Telefone do Participante (WhatsApp) *
+                  Telefone do futuro legendário (WhatsApp) *
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#6b7280]">
@@ -363,7 +352,7 @@ export function CartaForm({ onSuccess }: CartaFormProps) {
               {/* Nome do Participante */}
               <div>
                 <label className="block text-xs font-bold text-[#111827] mb-1">
-                  Nome Completo do Participante *
+                  Nome do futuro legendário *
                 </label>
                 <input
                   type="text"
