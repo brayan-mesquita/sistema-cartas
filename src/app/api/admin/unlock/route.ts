@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { sanitizePhone } from "@/lib/utils";
+import { requireAdmin } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
-    const adminSession = request.cookies.get("admin_session")?.value;
-    if (adminSession !== "authenticated_token_legendarios") {
-      return NextResponse.json({ error: "Acesso não autorizado." }, { status: 401 });
-    }
+    const unauthorized = requireAdmin(request);
+    if (unauthorized) return unauthorized;
 
     const { phone } = await request.json();
     if (!phone) {

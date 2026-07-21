@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireAdmin } from "@/lib/auth";
 
 export async function GET(request: NextRequest) {
   try {
-    const adminSession = request.cookies.get("admin_session")?.value;
-    if (adminSession !== "authenticated_token_legendarios") {
-      return NextResponse.json({ error: "Acesso não autorizado." }, { status: 401 });
-    }
+    const unauthorized = requireAdmin(request);
+    if (unauthorized) return unauthorized;
 
     const participants = await db.participant.findMany({
       include: {

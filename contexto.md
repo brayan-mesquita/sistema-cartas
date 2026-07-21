@@ -41,7 +41,7 @@ flowchart TD
 ## 🔑 4. Painel de Controle do Administrador (`/admin`)
 
 - **Acesso**: `http://localhost:3000/admin`
-- **Autenticação Padrão**: Usuário `admin` | Senha `legendarios123` (definida via `ADMIN_PASSWORD` no `.env`).
+- **Autenticação**: Usuário `admin` | Senha definida via `ADMIN_PASSWORD` no `.env` (não há senha padrão — sem a variável, o login fica desativado).
 - **Recursos**:
   - Tabela com busca em tempo real por participante ou telefone.
   - Links diretos para visualizar e abrir cada carta em PDF no Google Drive.
