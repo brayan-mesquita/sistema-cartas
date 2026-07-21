@@ -122,15 +122,18 @@ export function getGoogleDriveClient() {
 }
 
 /**
- * Busca ou cria uma subpasta com o nome do participante dentro da pasta principal
+ * Busca ou cria uma subpasta com o NOME DO PARTICIPANTE + TELEFONE (Ex: BRAYAN SOARES 69999909596)
+ * para evitar colisão entre participantes com o mesmo nome.
  */
 async function getOrCreateParticipantFolder(
   drive: any,
   parentFolderId: string,
-  participantName: string
+  participantName: string,
+  participantPhone: string
 ): Promise<string> {
-  const sanitizedName = participantName.trim();
-  const escapedName = sanitizedName.replace(/'/g, "\\'");
+  const cleanPhone = participantPhone.replace(/\D/g, "");
+  const folderName = `${participantName.trim()} ${cleanPhone}`.trim();
+  const escapedName = folderName.replace(/'/g, "\\'");
   const query = `'${parentFolderId}' in parents and name = '${escapedName}' and mimeType = 'application/vnd.google-apps.folder' and trashed = false`;
 
   try {
@@ -148,10 +151,10 @@ async function getOrCreateParticipantFolder(
     console.warn("Aviso ao buscar subpasta no Drive:", err);
   }
 
-  // Se a pasta não existe, cria a nova subpasta com o nome do participante
+  // Se a pasta não existe, cria a nova subpasta com NOME + TELEFONE
   const folderRes = await drive.files.create({
     requestBody: {
-      name: sanitizedName,
+      name: folderName,
       mimeType: "application/vnd.google-apps.folder",
       parents: [parentFolderId],
     },
@@ -221,7 +224,7 @@ export async function testGoogleDriveConnection(): Promise<{ success: boolean; m
 }
 
 /**
- * Realiza o upload da carta PDF para a subpasta do participante no Google Drive
+ * Realiza o upload da carta PDF para a subpasta (Nome + Telefone) do participante no Google Drive
  */
 export async function uploadPdfToGoogleDrive(fileData: FileUploadPayload): Promise<UploadResult> {
   const sanitizedPhone = fileData.participantPhone.replace(/\D/g, "");
@@ -233,11 +236,12 @@ export async function uploadPdfToGoogleDrive(fileData: FileUploadPayload): Promi
 
   if (drive && rootFolderId) {
     try {
-      // 1. Obter ou criar a subpasta com o NOME DO PARTICIPANTE
+      // 1. Obter ou criar a subpasta com o NOME DO PARTICIPANTE + TELEFONE
       const participantFolderId = await getOrCreateParticipantFolder(
         drive,
         rootFolderId,
-        fileData.participantName
+        fileData.participantName,
+        fileData.participantPhone
       );
 
       const bufferStream = new Readable();
