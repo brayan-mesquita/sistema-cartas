@@ -243,10 +243,6 @@ export default function AdminPage() {
               )}
             </button>
           </form>
-
-          <p className="text-[11px] text-[#6b7280] text-center">
-            Credenciais Padrão: Usuário <strong>admin</strong> | Senha <strong>legendarios123</strong>
-          </p>
         </div>
       </div>
     );

@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getGoogleDriveClient } from "@/lib/storage";
+import { sanitizePhone } from "@/lib/utils";
+import { requireAdmin } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
-    const adminSession = request.cookies.get("admin_session")?.value;
-    if (adminSession !== "authenticated_token_legendarios") {
-      return NextResponse.json({ error: "Acesso não autorizado." }, { status: 401 });
-    }
+    const unauthorized = requireAdmin(request);
+    if (unauthorized) return unauthorized;
 
     const { participantId, phone } = await request.json();
 
@@ -16,7 +16,9 @@ export async function POST(request: NextRequest) {
     }
 
     // 1. Localizar o participante no SQLite com todas as suas cartas
-    const cleanPhone = phone ? phone.replace(/\D/g, "") : undefined;
+    // sanitizePhone (e não replace/\D/) para bater com a normalização usada na
+    // gravação — telefones com +55 ou DDD com zero não casariam de outra forma.
+    const cleanPhone = phone ? sanitizePhone(phone) : undefined;
     const participant = await db.participant.findFirst({
       where: participantId ? { id: participantId } : { phone: cleanPhone },
       include: { cartas: true },

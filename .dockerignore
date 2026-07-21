@@ -1,0 +1,32 @@
+# O Dockerfile usa `COPY . .` — sem este arquivo, segredos e artefatos locais
+# entram nas camadas da imagem.
+
+# dependencias e build
+node_modules
+.next
+out
+build
+
+# controle de versao
+.git
+.gitignore
+
+# segredos
+.env
+.env.*
+service-account.json
+*.pem
+
+# banco de dados local
+*.db
+*.db-journal
+prisma/data
+
+# misc
+*.tsbuildinfo
+.DS_Store
+npm-debug.log*
+Dockerfile
+docker-compose.yml
+README.md
+contexto.md
