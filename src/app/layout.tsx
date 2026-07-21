@@ -13,12 +13,26 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Portal de Cartas — Servos Legendários",
-  description: "Portal Oficial de Envio de Cartas de Apoio do Movimento Legendários.",
+  title: "Cartas aos Senderistas — Movimento Legendários",
+  description: "Portal Oficial de Envio de Cartas de Apoio para os Senderistas do Movimento Legendários.",
   openGraph: {
-    title: "Portal de Cartas — Servos Legendários",
-    description: "Envie cartas em PDF para os participantes do evento Legendários.",
+    title: "Cartas aos Senderistas — Movimento Legendários",
+    description: "Portal Oficial de Envio de Cartas de Apoio em PDF.",
     type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 1200,
+        alt: "Cartas aos Senderistas — Movimento Legendários",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cartas aos Senderistas — Movimento Legendários",
+    description: "Portal Oficial de Envio de Cartas de Apoio em PDF.",
+    images: ["/og-image.jpg"],
   },
 };
 
